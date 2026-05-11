@@ -1,12 +1,11 @@
 import { AppSafeAreaView } from "@/components/ui/app-safe-area-view";
-import { Text } from "@/components/ui/global-text";
 import { Colors } from "@/constants/colors";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
-export default function TabTwoScreen() {
+export default function CreateScreen() {
   return (
     <AppSafeAreaView style={styles.container}>
-      <Text style={styles.text}>Explorar</Text>
+      <Text style={styles.text}>Create</Text>
     </AppSafeAreaView>
   );
 }
@@ -20,5 +19,6 @@ const styles = StyleSheet.create({
   text: {
     color: Colors.text,
     fontSize: 24,
+    fontWeight: "600",
   },
 });
