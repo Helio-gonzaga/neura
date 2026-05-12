@@ -17,18 +17,18 @@ export default function TabLayout() {
         tabBarInactiveTintColor: Colors.gray,
 
         tabBarStyle: {
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          backgroundColor: Colors.dark,
           borderTopWidth: 0,
           elevation: 0,
-          height: 80,
-          paddingBottom: 20,
+          height: 85,
+          paddingBottom: 25,
           paddingTop: 12,
           position: "absolute",
         },
 
         tabBarLabelStyle: {
           fontFamily: "Roboto_500Medium",
-          fontSize: 12,
+          fontSize: 13,
           marginTop: -2,
         },
 
@@ -71,16 +71,15 @@ export default function TabLayout() {
             <Pressable
               onPress={props.onPress}
               style={{
-                top: -10,
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
               <View
                 style={{
-                  width: 55,
-                  height: 55,
-                  borderRadius: 27.5,
+                  width: 50,
+                  height: 50,
+                  borderRadius: 25,
 
                   backgroundColor: Colors.primary,
 
@@ -88,7 +87,7 @@ export default function TabLayout() {
                   alignItems: "center",
                 }}
               >
-                <AntDesign name="plus" size={26} color={Colors.text} />
+                <AntDesign name="plus" size={25} color={Colors.dark} />
               </View>
             </Pressable>
           ),
