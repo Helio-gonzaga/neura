@@ -28,7 +28,7 @@ export function SummaryCards() {
   const renderColor = (label: string) => {
     switch (label) {
       case "Salvos":
-        return Colors.secondary;
+        return Colors.primary;
       case "Lidos":
         return Colors.primary;
       case "Resumos IA":

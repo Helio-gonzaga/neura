@@ -9,4 +9,7 @@ export type Post = {
   icon: string;
   iconColor: string;
   type: "bookmark" | "more";
+  link?: string;
+  notes?: string;
+  read?: boolean;
 };

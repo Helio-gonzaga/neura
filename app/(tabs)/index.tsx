@@ -1,6 +1,7 @@
 import { AppSafeAreaView } from "@/components/ui/app-safe-area-view";
 import { Ionicons } from "@expo/vector-icons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { router } from "expo-router";
 
 import { Categories } from "@/components/ui/categories";
 import { Text } from "@/components/ui/global-text";
@@ -10,13 +11,7 @@ import { Colors } from "@/constants/colors";
 import Card from "@/components/ui/card";
 import { SummaryCards } from "@/components/ui/summary-cards";
 import { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Post } from "../models/post.model";
 
 const posts: Post[] = [
@@ -29,6 +24,10 @@ const posts: Post[] = [
     icon: "logo-linkedin",
     iconColor: "#0A66C2",
     type: "bookmark",
+    read: true,
+    link: "https://www.linkedin.com/posts/openai_mcp-vscode-ai-activity",
+    notes:
+      "Testar integração do MCP no projeto NEURA para permitir que a IA entenda contexto do código automaticamente.",
   },
   {
     id: "2",
@@ -39,6 +38,10 @@ const posts: Post[] = [
     icon: "logo-youtube",
     iconColor: "#FF0000",
     type: "more",
+    read: false,
+    link: "https://www.youtube.com/watch?v=X48VuDVv0do",
+    notes:
+      "Revisar conceitos de pods, deployments e services para melhorar conhecimento de arquitetura cloud.",
   },
   {
     id: "3",
@@ -49,6 +52,10 @@ const posts: Post[] = [
     icon: "dev-to",
     iconColor: "#A1A1AA",
     type: "more",
+    read: false,
+    link: "https://dev.to/jamesli/a-complete-guide-to-rag-applications",
+    notes:
+      "Usar como base para implementar RAG no NEURA usando embeddings e busca vetorial.",
   },
   {
     id: "4",
@@ -59,6 +66,10 @@ const posts: Post[] = [
     icon: "logo-instagram",
     iconColor: "#E1306C",
     type: "more",
+    read: false,
+    link: "https://www.instagram.com/p/C-modern-frontend-architecture",
+    notes:
+      "Aplicar separação por features e componentes reutilizáveis no app React Native.",
   },
 ];
 
@@ -106,66 +117,93 @@ export default function HomeScreen() {
         contentContainerStyle={styles.scrollContent}
       >
         {posts.map((post) => (
-          <Card key={post.id} height={120}>
-            <View style={styles.cardContent}>
-              <View style={styles.imageWrapper}>
-                <Image
-                  source={post.image}
-                  style={styles.image}
-                  resizeMode="none"
-                />
-              </View>
+          <Pressable
+            key={post.id}
+            onPress={() => router.push(`/post/${post.id}`)}
+            style={({ pressed }) => [
+              {
+                transform: [{ scale: pressed ? 0.985 : 1 }],
+                opacity: pressed ? 0.88 : 1,
+              },
+            ]}
+          >
+            <Card height={120}>
+              <View style={styles.cardContent}>
+                <View style={styles.imageWrapper}>
+                  <Image
+                    source={post.image}
+                    style={styles.image}
+                    resizeMode="cover"
+                  />
+                </View>
 
-              <View style={styles.info}>
-                <Text style={styles.title} numberOfLines={3}>
-                  {post.title}
-                </Text>
-
-                <View style={styles.sourceRow}>
-                  {post.source === "dev.to" ? (
-                    <MaterialCommunityIcons
-                      name="dev-to"
-                      size={18}
-                      color={post.iconColor}
-                    />
-                  ) : (
-                    <Ionicons
-                      name={post.icon as keyof typeof Ionicons.glyphMap}
-                      size={18}
-                      color={post.iconColor}
-                    />
-                  )}
-
-                  <Text style={styles.sourceText}>
-                    {post.source} · {post.time}
+                <View style={styles.info}>
+                  <Text style={styles.title} numberOfLines={3}>
+                    {post.title}
                   </Text>
+
+                  <View style={styles.sourceRow}>
+                    {post.source === "dev.to" ? (
+                      <MaterialCommunityIcons
+                        name="dev-to"
+                        size={18}
+                        color={post.iconColor}
+                      />
+                    ) : (
+                      <Ionicons
+                        name={post.icon as keyof typeof Ionicons.glyphMap}
+                        size={18}
+                        color={post.iconColor}
+                      />
+                    )}
+
+                    <Text style={styles.sourceText}>
+                      {post.source} · {post.time}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.actionIcon}>
+                  {post.type === "bookmark" ? (
+                    <Pressable
+                      hitSlop={10}
+                      style={({ pressed }) => ({
+                        opacity: pressed ? 0.6 : 1,
+                        transform: [{ scale: pressed ? 0.92 : 1 }],
+                      })}
+                    >
+                      <Ionicons name="bookmark" size={22} color="#FACC15" />
+                    </Pressable>
+                  ) : (
+                    <Pressable
+                      hitSlop={10}
+                      style={({ pressed }) => ({
+                        opacity: pressed ? 0.6 : 1,
+                        transform: [{ scale: pressed ? 0.92 : 1 }],
+                      })}
+                    >
+                      <MaterialCommunityIcons
+                        name="dots-vertical"
+                        size={24}
+                        color={Colors.lightGray}
+                      />
+                    </Pressable>
+                  )}
                 </View>
               </View>
-
-              <View style={styles.actionIcon}>
-                {post.type === "bookmark" ? (
-                  <TouchableOpacity activeOpacity={0.7}>
-                    <Ionicons
-                      name="bookmark"
-                      size={22}
-                      color={Colors.primary}
-                    />
-                  </TouchableOpacity>
-                ) : (
-                  <TouchableOpacity activeOpacity={0.7}>
-                    <MaterialCommunityIcons
-                      name="dots-vertical"
-                      size={24}
-                      color={Colors.lightGray}
-                    />
-                  </TouchableOpacity>
-                )}
-              </View>
-            </View>
-          </Card>
+            </Card>
+          </Pressable>
         ))}
 
-        <TouchableOpacity activeOpacity={0.8} style={{ marginBottom: 20 }}>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              marginBottom: 20,
+              transform: [{ scale: pressed ? 0.985 : 1 }],
+              opacity: pressed ? 0.9 : 1,
+            },
+          ]}
+        >
           <Card height={72}>
             <View style={styles.viewAllContent}>
               <Text style={styles.viewAllText}>Ver todos</Text>
@@ -173,7 +211,7 @@ export default function HomeScreen() {
               <Ionicons name="chevron-forward" size={20} color={Colors.text} />
             </View>
           </Card>
-        </TouchableOpacity>
+        </Pressable>
 
         <SummaryCards />
       </ScrollView>
